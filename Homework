@@ -8,3 +8,39 @@ Helping people to find and connect with others who share their values
 Making social media a more enjoyable and welcoming place for everyone
 
 the solution
+# First, we need to import some libraries
+import os
+
+# Function to read the contents of a file and return a list of lines
+def read_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read().splitlines()
+
+# Read the files
+texts = read_file('tweets.txt')          # Text file
+words_positive = read_file('words_positive.txt')  # Positive words file
+words_negative = read_file('words_negative.txt')  # Negative words file
+
+# Function to analyze the sentiment of a text
+def analyze_sentiment(text):
+    positive_count = 0
+    negative_count = 0
+    
+    words = text.split()
+    for word in words:
+        if word.lower() in words_positive:
+            positive_count += 1
+        elif word.lower() in words_negative:
+            negative_count += 1
+    
+    if positive_count > negative_count:
+        return 'Positive'
+    elif negative_count > positive_count:
+        return 'Negative'
+    else:
+        return 'Neutral'
+
+# Analyze each text and display the result
+for text in texts:
+    sentiment = analyze_sentiment(text)
+    print(f'Text: {text}\nSentiment: {sentiment}\n')
